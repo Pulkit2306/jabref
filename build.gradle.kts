@@ -87,8 +87,17 @@ tasks.cyclonedxBom {
 }
 sonar {
     properties {
-        property("sonar.projectKey", "KawshikKumar_jabref")
-        property("sonar.organization", "kawshikkumar")
+        val sonarProjectKey = System.getenv("SONAR_PROJECT_KEY") ?: "KawshikKumar_jabref"
+        val sonarOrganization = System.getenv("SONAR_ORGANIZATION") ?: "kawshikkumar"
+
+        property("sonar.projectKey", sonarProjectKey)
+        property("sonar.organization", sonarOrganization)
         property("sonar.java.source", "17")
+    }
+}
+
+tasks.named("sonarqube") {
+    onlyIf {
+        System.getenv("SONAR_TOKEN") != null
     }
 }
